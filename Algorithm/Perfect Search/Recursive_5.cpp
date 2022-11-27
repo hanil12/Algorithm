@@ -29,7 +29,23 @@ int main()
 // 겹치거나, 검은칸을 덮을 때 false를 반환한다.
 bool set(vector<vector<int>>& board, int y, int x, int type, int delta)
 {
-	return false;
+	bool ok = true;
+
+	for (int i = 0; i < 3; i++)
+	{
+		const int ny = y + coverType[type][i][0];
+		const int nx = x + coverType[type][i][1];
+
+		if (ny < 0 || ny >= board.size()
+			|| nx < 0 || nx >= board.size())
+			ok = false;
+
+		// 이미 덮혀있던 블록이여도 ok는 false.
+		else if ((board[ny][nx] += delta) > 1)
+			ok = false;
+	}
+
+	return ok;
 }
 
 int cover(vector<vector<int>>& board)
